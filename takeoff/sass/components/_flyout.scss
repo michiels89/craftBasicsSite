@@ -1,0 +1,141 @@
+%ext-hamburger-line {
+  position: absolute;
+  display: inline-block;
+  width: 18px;
+  height: 2px;
+  background: $color-primary;
+  border-radius: 1px;
+  transition: all 200ms;
+}
+
+.flyout {
+  @include transitions(transform);
+  width: 240px;
+  transform: translateX(240px);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  overflow-y: scroll;
+  background: $white;
+  display: block;
+  z-index: $zindex-layer-5;
+
+  &__content + .flyout__content {
+    margin-top: $rh-xsm;
+  }
+
+  .flyout-active & {
+    transform: translateX(0);
+  }
+
+  @include breakpoint($breakpoint-flyout) {
+    display: none;
+  }
+
+  &__close,
+  &__back {
+    @include link-variant ($gray-100);
+    display: block;
+    box-shadow: none;
+    border: none;
+    padding: $rh-xsm $rh-xsm $rh-xsm ($rh-xsm - 4);
+    border-radius: 0;
+    width: 100%;
+    font-weight: $font-weight-semi-bold;
+    text-decoration: none;
+    .icon {
+      color: $color-primary;
+    }
+  }
+
+  &__link {
+    @include link-variant($gray-100);
+    font-weight: $font-weight-bold;
+    position: relative;
+    display: inline-block;
+    padding-top: 26px;
+    padding-right: 24px;
+    padding-bottom: 26px;
+    margin: 0 5px 0 5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: $letter-spacing-sml;
+    clear: right;
+    .lines {
+      @extend %ext-hamburger-line;
+      top: 2.3em;
+      right: 0;
+      &:before {
+        @extend %ext-hamburger-line;
+        content: '';
+        top: -5px;
+        transform-origin: 50% 50%;
+      }
+      &:after {
+        @extend %ext-hamburger-line;
+        content: '';
+        top: 5px;
+        transform-origin: 50% 50%;
+      }
+    }
+    &.is-open {
+      .lines {
+        background: transparent;
+        &:before {
+          top: 0px;
+          transform: rotate3d(0, 0, 1, 45deg);
+        }
+        &:after {
+          top: 0px;
+          transform: rotate3d(0, 0, 1, -45deg);
+        }
+      }
+    }
+    @include breakpoint($breakpoint-flyout) {
+      display: none;
+    }
+  }
+}
+
+.flyout__overlay {
+  @include transitions(opacity);
+  @include absolute-fill();
+  z-index: $zindex-layer-4;
+  background: $gray-0;
+  background: rgba($black, .75);
+  visibility: hidden;
+  opacity: 0;
+  height: 100vh;
+  cursor: pointer;
+  .flyout-active & {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.flyout-active {
+  .page-wrap {
+    height: 100vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+}
+
+.nav--flyout {
+  ul {
+    @include listreset;
+    width: 100%;
+    .nav__item + .nav__item {
+      border-top: 1px solid $gray-0;
+    }
+  }
+  a {
+    @include link-variant($color-text, $color-primary);
+    display: block;
+    padding: $rh-xsm;
+    text-decoration: none;
+  }
+}
+

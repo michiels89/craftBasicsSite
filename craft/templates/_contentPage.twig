@@ -1,0 +1,32 @@
+{% extends "_layout" %}
+{% import '_macro/_assets' as assets %}
+
+
+{% set breadcrumbs = [
+    entry,
+] %}
+
+{% block content %}
+
+    <div class="section section--default">
+        <div class="container">
+            {% include '_snippet/_content/_pageTitle' %}
+
+            {% include '_snippet/_content/_intro' %}
+        </div>
+    </div>
+    <div class="section section--default">
+        <div class="container">
+        </div>
+    </div>
+
+    {% include '_snippet/_content/_contentBuilder'
+        with {
+            settings : {
+                section: 'section',
+                container: 'container'
+            }
+        }
+    %}
+
+{% endblock %}

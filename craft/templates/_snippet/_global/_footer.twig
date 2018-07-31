@@ -1,0 +1,62 @@
+<footer class="page-footer" role="contentinfo">
+    <div class="section section--bg section--xlr section--doormat">
+        <div class="container">
+            <div class="section__content">
+                <div class="grid">
+                    <div class="grid__12 grid--bp-med__6">
+                        {% include '_snippet/_nav/_doormat' %}
+                    </div>
+                    <div class="grid__12 grid--bp-med__6">
+                        <div class="section--doormat__block">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section section--sml section--footer">
+        <div class="container">
+            <div class="section__content">
+                <div class="grid">
+                    <div class="grid__12 grid--bp-sml__6">
+                        <p class="page-footer__copyright">&copy; {{ now.year }} {{ siteName }} - Website by <a href="https://www.statik.be">Statik</a></p>
+                    </div>
+                    <div class="grid__12 grid--bp-sml__6">
+                        <div class="pull--bp-sml--right">
+                            <nav class="nav nav--footer">
+                                <ul>
+                                    {% set privacyPage = craft.entries.section('privacy').first() %}
+                                    {% if privacyPage %}
+                                        <li><a href="{{ privacyPage.url }}" class="nav__link">{{ privacyPage.title }}</a></li>
+                                    {% endif %}
+
+                                    {% set termsPage = craft.entries.section('termsConditions').first() %}
+                                    {% if termsPage %}
+                                        <li><a href="{{ termsPage.url }}" class="nav__link">{{ termsPage.title }}</a></li>
+                                    {% endif %}
+
+                                    {% set cookiePage = craft.entries.section('cookiePolicy').first() %}
+                                    {% if cookiePage %}
+                                        <li><a href="{{ cookiePage.url }}" class="nav__link">{{ cookiePage.title }}</a></li>
+                                    {% endif %}
+
+                                    {% if socialMedia.facebook or socialMedia.instagram or socialMedia.linkedin or socialMedia.pinterest or socialMedia.twitter or socialMedia.youtube %}
+                                        <li>{{ 'Volg ons'|t }}</li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                            {% if socialMedia.facebook or socialMedia.instagram or socialMedia.linkedin or socialMedia.pinterest or socialMedia.twitter or socialMedia.youtube %}
+                                <div class="nav nav--social">
+                                    <ul>
+                                        {% include '_snippet/_content/_socialMedia' %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

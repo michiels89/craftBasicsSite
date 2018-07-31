@@ -1,0 +1,10 @@
+{% if craft.amNav.getNavRaw("serviceNav") is defined %}
+    <nav class="nav nav--service">
+        <ul>
+            {% set nav = craft.amNav.getNavRaw("serviceNav") %}
+            {% for node in nav %}
+                <li><a href="{{ node.url }}" class="{{ globalMacro.is_active(node.url) }} {{ node.listClass }}" {% if node.blank %} target="_blank"{% endif %}>{{ node.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}

@@ -1,0 +1,70 @@
+{% import '_macro/_global' as globalMacro %}
+{% set baseUrl = craft.config.environmentVariables.baseUrl %}
+
+<!doctype html>
+{% set locale = craft.locale|split('_') %}
+{% set locale = locale[0]|lower %}
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie10" lang="{{ locale }}"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9 lt-ie10" lang="{{ locale }}"> <![endif]-->
+<!--[if IE 9]>
+<html class="no-js lt-ie10" lang="{{ locale }}"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js js-done" lang="{{ locale }}"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% hook "seo" %}
+    <script type="text/javascript" src="{{ baseUrl }}/js/modernizr.min.js"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ baseUrl }}/js/html5shiv.min.js"></script> <![endif]-->
+    <!--[if gt IE 9]><!-->
+    <link rel="stylesheet" href="{{ baseUrl }}/css/main.min.css">
+    <!--<![endif]-->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ baseUrl }}/js/selectivizr.min.js"></script>
+    <![endif]-->
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="{{ baseUrl }}/css/main-legacy.min.css">
+    <script type="text/javascript" src="{{ baseUrl }}/js/polyfill.min.js"></script>
+    <![endif]-->
+    <link rel="icon" type="image/png" href="{{ craft.rebrand.icon.url }}"/>
+    {% include '_snippet/_global/_webfonts' %}
+</head>
+
+<body data-components="{% block dataComponents %}form{% endblock %}">
+    <div class="page-wrap">
+
+        {% include '_snippet/_global/_header' %}
+
+        {% include '_snippet/_global/_flyout' %}
+
+        <div class="page-main" role="main">
+            {% block breadcrumbs %}
+                <div class="section">
+                    <div class="container">
+                        {% include '_snippet/_nav/_breadcrumbs' %}
+                    </div>
+                </div>
+            {% endblock %}
+
+            {% block content %}{% endblock %}
+        </div>
+
+        {% include '_snippet/_global/_footer' %}
+
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        window.app = window.app || {};
+        app.variables = {
+            assetsPath: "/",
+        };
+    </script>
+    <script type="text/javascript" src="{{ baseUrl }}/js/main.min.js"></script>
+</body>
+</html>

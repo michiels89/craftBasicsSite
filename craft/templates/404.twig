@@ -1,0 +1,26 @@
+{% set entry = craft.entries.section('pageNotFound').first %}
+
+{% extends "_layout" %}
+{% import '_macro/_assets' as assets %}
+
+{% block seo %}
+    {{ parent() }}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb %}{% endblock %}
+
+{% block content %}
+
+    <div class="section section--default">
+        <div class="container">
+            {% include '_snippet/_content/_pageTitle' %}
+
+            {% include '_snippet/_content/_intro' %}
+        </div>
+    </div>
+
+    {% include '_snippet/_content/_contentBuilder' %}
+
+{% endblock %}
+

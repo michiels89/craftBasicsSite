@@ -1,0 +1,17 @@
+{% if block.image|length %}
+    {% if settings.section is not defined  %}
+        {% if block['backgroundColor'] is defined %}
+            {% set class = 'block block--panel block--' ~block.backgroundColor %}
+        {% endif %}
+    {% else %}
+        {% set class = 'block' %}
+    {% endif %}
+
+    <div class="{{ class }}">
+        <div class="grid">
+            <div class="grid__12">
+                {{ assets.renderSrcset(block.image, 'grid__12') }}
+            </div>
+        </div>
+    </div>
+{% endif %}

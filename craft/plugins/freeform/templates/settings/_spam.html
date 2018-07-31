@@ -1,0 +1,33 @@
+{% extends "freeform/_layouts/settings" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block content %}
+
+    <h2>{{ "Spam Settings"|t }}</h2>
+
+    <form action="" method="post" accept-charset="UTF-8">
+        <input type="hidden" name="action" value="freeform/settings/saveSettings">
+        <input type="hidden" name="redirect" value="freeform/settings/spam">
+        {{ getCsrfInput() }}
+
+        {{ forms.lightswitchField({
+            label: "Spam Protection"|t,
+            instructions: "Enable this to use Freeform's built in Javascript-based honeypot spam protection."|t,
+            name: "settings[spamProtectionEnabled]",
+            on: settings.spamProtectionEnabled,
+            errors: settings.errors("spamProtectionEnabled"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Spam protection simulates a successful submission?"|t,
+            instructions: "Enable this to change the spam protection behavior to simulate a successful submission instead of just reloading the form."|t,
+            name: "settings[spamBlockLikeSuccessfulPost]",
+            on: settings.spamBlockLikeSuccessfulPost,
+            errors: settings.errors("spamBlockLikeSuccessfulPost"),
+        }) }}
+
+        <input type="submit" class="btn submit" value="{{ "Save"|t }}">
+    </form>
+
+{% endblock %}

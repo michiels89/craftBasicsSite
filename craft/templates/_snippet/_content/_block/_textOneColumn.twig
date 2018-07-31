@@ -1,0 +1,26 @@
+{% if settings.section is not defined  %}
+    {% if block['backgroundColor'] is defined %}
+        {% set class = 'block block--panel block--' ~block.backgroundColor %}
+    {% endif %}
+{% else %}
+    {% set class = 'block' %}
+{% endif %}
+
+<div class="{{ class }}">
+    <div class="grid">
+        <div class="grid__12 {% if settings.centered is not defined %}grid--bp-med__8{% endif %}">
+            <div class="spacer">
+                {{ block.text }}
+            </div>
+            <div class="spacer">
+            {% if block.cta|length %}
+                <div class="inline">
+                    {% for cta in block.cta.find() %}
+                        {% include '_snippet/_content/_block/_cta' %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

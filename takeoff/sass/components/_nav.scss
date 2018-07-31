@@ -1,0 +1,209 @@
+%ext-default-nav {
+  ul {
+    @include listreset;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+%ext-horizontal-nav {
+  ul {
+    @include cf;
+  }
+  li {
+    float: left;
+  }
+}
+
+
+.nav {
+  &--service {
+    @extend %ext-default-nav;
+    @extend %ext-horizontal-nav;
+    @include fsRem(14px);
+    float: right;
+    margin-top: $rh-xsm;
+    line-height: 1;
+    li {
+      padding: 0 $rh-xsm;
+      + li {
+        border-left: 1px solid;
+      }
+    }
+    a {
+      @include link-variant($color-text, $color-primary);
+    }
+  } // end .--service
+
+  &--main {
+    @extend %ext-default-nav;
+    @extend %ext-horizontal-nav;
+    position: relative;
+    float: right;
+    display: none;
+    li {
+      margin: 0 $rh-sml;
+    }
+    a {
+      @include link-variant($color-text, $color-primary);
+      display: block;
+      padding: $rh-xxs 0;
+      background-image: linear-gradient(to right, $color-primary, $color-primary);
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      background-size: 0 2px;
+      &:hover,
+      &:focus,
+      &.active {
+        background-size: 100% 2px;
+      }
+    }
+    @include breakpoint($breakpoint-flyout) {
+      display: block;
+    };
+  } // end .--main
+
+  &--social {
+    @extend %ext-default-nav;
+    @extend %ext-horizontal-nav;
+    @include cf;
+    margin-top: -4px;
+    display: inline-block;
+    &__title {
+      float: left;
+      font-size: 16px;
+      padding: 7px 0;
+      margin: 0 $rh-xsm 0 0;
+      color: $gray-25;
+    }
+    ul {
+      float: left;
+    }
+    li {
+      padding: 0 $rh-xxs;
+      font-weight: $font-weight-semi-bold;
+    }
+    a {
+      @include fsRem(22px);
+      @include link-variant($color-primary, $color-secondary);
+    }
+    &-share {
+      @include cf;
+      h2 {
+        float: left;
+        @include fsRem(30px);
+        padding: 2px 0;
+        margin-right: $rh-xsm;
+      }
+      a {
+        @include link-variant($color-primary, $color-secondary);
+      }
+    }
+    &-flyout {
+      .nav--social__title {
+        clear: both;
+        float: none;
+        padding-left: 0;
+      }
+      ul {
+        @include cf;
+        padding-left: 0;
+      }
+      li {
+        float: left;
+        + li {
+          border-top: 0 !important;
+        }
+      }
+      a {
+        font-size: 24px !important;
+        @include link-variant($color-primary, $color-secondary);
+        padding: 0 $rh-xxs;
+        &:firs-child {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  &--doormat {
+    @extend %ext-default-nav;
+    float: left;
+    a {
+      position: relative;
+      @include link-variant($white);
+      @include fsRem(20px);
+      display: block;
+      font-weight: $font-weight-semi-bold;
+      padding: $rh-xxs;
+      text-decoration: none;
+      &:focus,
+      &.active {
+        color: $white !important;
+      }
+      &:hover {
+        color: $white !important;
+        text-decoration: underline;
+      }
+    }
+    &-variant {
+      a {
+        @include fsRem(16px);
+        font-weight: 500;
+      }
+    }
+  } // end .--doormat
+
+  &--footer {
+    @include fsRem(16px);
+    @extend %ext-default-nav;
+    @extend %ext-horizontal-nav;
+    line-height: 1;
+    display: inline-block;
+    li {
+      padding: $rh-xsm;
+      @include breakpoint(map-get($breakpoints, xsm), max-width) {
+        padding-top: 0;
+      };
+      &:first-of-type {
+        padding-left: 0;
+      }
+      &:last-of-type {
+        padding-right: 0;
+      }
+    }
+    a {
+      @include link-variant($color-primary);
+      display: block;
+      &:hover,
+      &:focus,
+      &.active {
+        text-decoration: underline;
+      }
+    }
+  } // end .--footer
+
+  &--language {
+    @extend %ext-default-nav;
+    @extend %ext-horizontal-nav;
+    float: right;
+    font-weight: $font-weight-bold;
+    line-height: 1;
+    text-transform: uppercase;
+    a {
+      @include link-variant($white);
+      display: block;
+      padding: $rh-xsm;
+      background: $gray-100;
+      &:hover,
+      &:focus,
+      &.active {
+        background: $color-primary;
+      }
+    }
+  } // end .--language
+
+  &--tabs {
+    margin-bottom: $rh-sml;
+  }
+}

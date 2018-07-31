@@ -1,0 +1,35 @@
+{% macro pager(pageInfo) %}
+    {% if pageInfo.totalPages > 1 %}
+        <div class="block spacer">
+            <ul class="pagination">
+                {% if pageInfo.prevUrl %}
+                    <li class="pagination__item">
+                        <a href="{{ pageInfo.prevUrl }}{% if craft.request.getQueryStringWithoutPath() %}?{{ craft.request.getQueryStringWithoutPath() }}{% endif %}" class="pagination__prev">{{ 'Vorige'|t }}</a>
+                    </li>
+                {% endif %}
+
+                {% for page, url in pageInfo.getPrevUrls(3) %}
+                    <li class="pagination__item">
+                        <a href="{{ url }}{% if craft.request.getQueryStringWithoutPath() %}?{{ craft.request.getQueryStringWithoutPath() }}{% endif %}" class="pagination__btn">{{ page }}</a>
+                    </li>
+                {% endfor %}
+
+                <li class="pagination__item">
+                    <a href="#" class="pagination__btn active">{{ pageInfo.currentPage }}</a>
+                </li>
+
+                {% for page, url in pageInfo.getNextUrls(3) %}
+                    <li class="pagination__item">
+                        <a href="{{ url }}{% if craft.request.getQueryStringWithoutPath() %}?{{ craft.request.getQueryStringWithoutPath() }}{% endif %}" class="pagination__btn">{{ page }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if pageInfo.nextUrl %}
+                    <li class="pagination__item">
+                        <a href="{{ pageInfo.nextUrl }}{% if craft.request.getQueryStringWithoutPath() %}?{{ craft.request.getQueryStringWithoutPath() }}{% endif %}" class="pagination__next">{{ 'Volgende'|t }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+{% endmacro %}

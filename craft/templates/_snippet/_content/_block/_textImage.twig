@@ -1,0 +1,29 @@
+{% set inverseClass = block.imagePosition == 'left' ? '' : 'grid--reverse' %}
+{% if settings.section is not defined  %}
+    {% if block['backgroundColor'] is defined %}
+        {% set class = 'block block--panel block--' ~block.backgroundColor %}
+    {% endif %}
+{% else %}
+    {% set class = 'block' %}
+{% endif %}
+<div class="{{ class }}">
+    <div class="grid {{ inverseClass }}">
+        <div class="grid__12 grid--bp-sml__6">
+            {{ assets.renderSrcset(block.image, 'grid__6') }}
+        </div>
+        <div class="grid__12 grid--bp-sml__6">
+            <div class="spacer">
+                {{ block.text }}
+            </div>
+            <div class="spacer">
+                {% if block.cta|length %}
+                    <div class="inline">
+                        {% for cta in block.cta.find() %}
+                            {% include '_snippet/_content/_block/_cta' %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

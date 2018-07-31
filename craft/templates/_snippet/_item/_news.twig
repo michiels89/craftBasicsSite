@@ -1,0 +1,13 @@
+<div class="grid__item">
+    <a href="{{ newsEntry.getUrl() }}" class="card card--news">
+        {% if newsEntry.overviewImage|length %}
+            <div class="card__img">
+                {{ assets.renderSrcset(newsEntry.overviewImage, 'grid__4') }}
+            </div>
+        {% endif %}
+        <div class="card__main">
+            <div class="card__meta">{{ newsEntry.postDate.format('d.m.Y') }}</div>
+            <h3 class="card__title">{{ newsEntry.overviewTitle ? newsEntry.overviewTitle : newsEntry.title }}</h3>
+        </div>
+    </a>
+</div>

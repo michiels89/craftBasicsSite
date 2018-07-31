@@ -1,0 +1,34 @@
+{% import '_macro/_pager' as pagination %}
+{% import '_macro/_assets' as assets %}
+
+{% extends "_layout" %}
+
+{% set breadcrumbs = [
+    entry,
+] %}
+
+{% block content %}
+
+    <div class="section section--default">
+        <div class="container">
+            {% include '_snippet/_content/_pageTitle' %}
+            {% include '_snippet/_content/_intro' %}
+        </div>
+    </div>
+
+    {% set entries = craft.entries.section('news').order('postDate DESC') %}
+    {% paginate entries.limit(12) as pageInfo, news %}
+
+    <div class="section">
+        <div class="container">
+            <div class="grid grid--bp-sml-2-col grid--bp-lrg-3-col spacer">
+                {% for newsEntry in news %}
+                    {% include '_snippet/_item/_news' %}
+                {% endfor %}
+            </div>
+
+            {{ pagination.pager(pageInfo) }}
+        </div>
+    </div>
+
+{% endblock %}

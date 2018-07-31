@@ -1,0 +1,68 @@
+{% extends "_layout" %}
+{% import '_macro/_assets' as assets %}
+
+{% set breadcrumbs = [
+    craft.entries.section('newsOverview').first(),
+    entry,
+] %}
+
+{% block content %}
+
+    <div class="section section--default">
+        <div class="container">
+            {% include '_snippet/_content/_pageTitle' %}
+
+            <div>{{ entry.postDate.format('d.m.Y') }}</div>
+
+            {% include '_snippet/_content/_intro' %}
+            {% include '_snippet/_content/_socialShare' %}
+        </div>
+    </div>
+
+    <div class="section section--default section--border-top">
+        <div class="container">
+            <div class="grid__12 grid--bp-sml__8 grid--bp-sml__offset-2">
+                {% include '_snippet/_content/_contentBuilder'
+                    with {
+                        settings : {
+                            centered: true,
+                        }
+                    }
+                %}
+            </div>
+        </div>
+    </div>
+
+    {% set news = craft.entries().section('news').order('postDate DESC').limit(3).id('not ' ~ entry.id) %}
+    {% set otherNews = craft.entries().section('news').order('postDate DESC').id('not ' ~ entry.id) %}
+
+    {% if news|length %}
+        <div class="section section--default section--border-top">
+            <div class="container">
+                <div class="section__content">
+                    <div class="block">
+                        <h2 class="spacer">{{ 'Ander nieuws'|t }}</h2>
+                        <div class="spacer--xsm grid grid--bp-med-3-col">
+    {% endif %}
+
+    {% for newsEntry in news %}
+        {% include '_snippet/_item/_news' %}
+    {% endfor %}
+
+    {% if news|length %}
+                        </div>
+
+                        {% set overview = craft.entries.section('newsOverview').first() %}
+
+                        {% if overview and otherNews|length > 3 %}
+                            <div class="spacer--xlr text--center">
+                                <a href="{{ overview.url }}" class="btn">{{ "Meer nieuws"|t }}</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

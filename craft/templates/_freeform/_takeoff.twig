@@ -1,0 +1,157 @@
+{{ form.renderTag ({
+    formAttributes: { "data-parsley-validate": true }
+}) }}
+
+{% if form.pages|length > 1 %}
+    <nav class="nav--tabs">
+        <ul class="tabbable">
+            {% for page in form.pages %}
+                <li class="tabs__tab {{ form.currentPage.index == page.index ? " active" : "" }}">
+                    {% if form.currentPage.index == page.index %}
+                        <a href="javascript:;" class="is-active">{{ page.label }}</a>
+                    {% else %}
+                        <a href="javascript:;">{{ page.label }}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}
+
+{% if form.hasErrors %}
+    <ul class="parsley-errors-list">
+        <li>{{ "There was an error submitting this form"|t }}</li>
+    </ul>
+{% endif %}
+
+
+{% for row in form %}
+    <div class="form__row {{ form.customAttributes.rowClass }}">
+        {% for field in row %}
+            {% set width = (12 / (row|length)) %}
+            {% set isCheckbox = field.type in ["checkbox","mailing_list"] %}
+
+
+            {% set columnClass = 'form__item' %}
+            {% set labelClass = "form__label" %}
+            {% set instructionsClass = "form__description" %}
+
+            {% if field.type == "submit" %}
+                {% set columnClass = columnClass ~ " submit submit-align-" ~ field.position %}
+            {% endif %}
+
+                {% if field.type == "html" %}
+                    {{ field.value|raw }}
+                {% elseif field.type == 'radio_group' %}
+                    <div class="{{ columnClass }} form__item--radios">
+                    {{ field.renderLabel() }}
+                    {% if field.isRequired() %}
+                        {% set extraAttributes = {
+                            inputAttributes: { "required": "required", }
+                        } %}
+                    {% else %}
+                        {% set extraAttributes = {
+                            inputAttributes: ''
+                        } %}
+                    {% endif %}
+                    {% if not field.isRequired() %}<small class="form__caption">{{ 'Optional'|t }}</small>{% endif %}
+                        <div class="form__group radio-group">
+                            {{ field.renderInput(extraAttributes) }}
+                        </div>
+                        {% if field.instructions %}
+                            <div class="form__description">{{ field.renderInstructions }}</div>
+                        {% endif %}
+                        <div class="parsley-errors-list">{{ field.renderErrors() }}</div>
+                    </div>
+
+                {% elseif field.type == 'checkbox' %}
+                    <div class="{{ columnClass }} form__item--checkbox">
+                        <label for="{{ field.id }}" class="{{ form.customAttributes.labelClass }}">{{ field.label|raw }}
+                            {% if not field.isRequired() %}<small class="form__caption">{{ 'Optional'|t }}</small>{% endif %}
+                        {{ field.renderInput({
+                            useRequiredAttribute: true,
+                            id: field.id
+                        }) }}
+                        </label>
+                        {% if field.instructions %}
+                            <div class="form__description">{{ field.renderInstructions }}</div>
+                        {% endif %}
+                        <div class="parsley-errors-list">{{ field.renderErrors() }}</div>
+                    </div>
+
+                {% elseif field.type == 'checkbox_group' %}
+                    <div class="{{ columnClass }} form__item--checkboxes">
+                    {{ field.renderLabel() }}
+                    {% if field.isRequired() %}
+                        {% set extraAttributes = {
+                            inputAttributes: { "required": "required", }
+                        } %}
+                    {% else %}
+                        {% set extraAttributes = {
+                            inputAttributes: ''
+                        } %}
+                    {% endif %}
+                    {% if not field.isRequired() %}<small class="form__caption">{{ 'Optional'|t }}</small>{% endif %}
+                        <div class="form__group checkbox-group">
+                            {{ field.renderInput(extraAttributes) }}
+                            {% if field.instructions %}
+                                <div class="form__description">{{ field.renderInstructions }}</div>
+                            {% endif %}
+                            <div class="parsley-errors-list">{{ field.renderErrors() }}</div>
+                        </div>
+                    </div>
+                {% elseif field.type == 'select' %}
+                    <div class="{{ columnClass }}">
+                        {{ field.renderLabel() }}
+                        {% if not field.isRequired() %}<small class="form__caption">{{ 'Optional'|t }}</small>{% endif %}
+                        <div class="form__element">
+                            <div class="form__icon form__icon--select" aria-hidden="true"></div>
+                            {{ field.renderInput({
+                                class: 'form__text form__select',
+                                useRequiredAttribute: true
+                            }) }}
+                        </div>
+                        {% if field.instructions %}
+                            <div class="form__description">{{ field.renderInstructions }}</div>
+                        {% endif %}
+                        <div class="parsley-errors-list">{{ field.renderErrors() }}</div>
+                    </div>
+                {% elseif field.type == 'number' %}
+                    <div class="{{ columnClass }}">
+                        {{ field.renderLabel() }}
+                        {% if not field.isRequired() %}<small class="form__caption">{{ 'Optional'|t }}</small>{% endif %}
+                        <input type="number" name="{{ field.handle }}" id="{{ field.id }}" class="form__text"
+                            {% if field.maxValue|length %}max="{{ field.maxValue }}"{% endif %}
+                            {% if field.minValue|length %}min="{{ field.minValue }}"{% endif %}
+                            {% if field.minLength|length %}minlength="{{ field.minLength }}"{% endif %}
+                            {% if field.maxLength|length %}maxlength="{{ field.maxLength }}"{% endif %}
+                        >
+                        {% if field.instructions %}
+                            <div class="form__description">{{ field.renderInstructions }}</div>
+                        {% endif %}
+                        <div class="parsley-errors-list">{{ field.renderErrors() }}</div>
+                    </div>
+                {% elseif field.type == 'submit' %}
+                    <div class="form__item form__btn-space-between">
+                    {{ field.renderInput() }}
+                    </div>
+                {% else %}
+                    <div class="{{ columnClass }}">
+                    {{ field.renderLabel }}
+                    {% if not field.isRequired() %}<small class="form__caption">{{ 'Optional'|t }}</small>{% endif %}
+                    {{ field.renderInput({
+                        class: 'form__text',
+                        useRequiredAttribute: true
+                    }) }}
+                    {% if field.instructions %}
+                        <div class="form__description">{{ field.renderInstructions }}</div>
+                    {% endif %}
+                        <div class="parsley-errors-list">{{ field.renderErrors() }}</div>
+                    </div>
+                {% endif %}
+
+        {% endfor %}
+    </div>
+{% endfor %}
+
+{{ form.renderClosingTag }}

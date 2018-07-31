@@ -1,0 +1,46 @@
+{% macro renderSrcset(image, transform) %}
+    {% set transforms = {
+    'grid__2': { mode: 'fit', width: 200, quality: 100, },
+    'grid__4': { mode: 'fit', width: 400, quality: 100, },
+    'grid__6': { mode: 'fit', width: 700, quality: 100, },
+    'grid__8': { mode: 'fit', width: 800, quality: 100, },
+    'grid__12': { mode: 'fit', width: 1400, quality: 100, },
+    } %}
+
+    {% set breakPointTransforms = {
+    440: { mode: 'fit', width: 440, quality: 100, },
+    660: { mode: 'fit', width: 660, quality: 100, },
+    820: { mode: 'fit', width: 820, quality: 100, },
+    980: { mode: 'fit', width: 980, quality: 100, },
+    1440: { mode: 'fit', width: 1400, quality: 100, },
+    } %}
+
+    {# xxs: 320px, xsm: 440px, sml: 660px, med: 820px, lrg: 980px, xlr: 1200px #}
+    {% set sizes = {
+    'grid__2': '(min-width: 660px) 13vw, 100vw',
+    'grid__4': '(min-width: 660px) 33vw, 100vw',
+    'grid__6': '(min-width: 660px) and (max-width: 2500px) 50vw, , 100vw',
+    'grid__8': '(min-width: 660px) 75vw, 100vw',
+    'grid__12': '100vw',
+    } %}
+    {# Check if we have an image to work with and if we should fallback to a placeholder#}
+    {% if not image|length %}
+    {% else %}
+        {% set asset = image.first() %}
+    {% endif %}
+    {% if asset is defined %}
+        {% set srcSetImages = {
+            440: craft.imager.transformImage(asset, attribute(breakPointTransforms, 440)),
+            660: craft.imager.transformImage(asset, attribute(breakPointTransforms, 660)),
+            820: craft.imager.transformImage(asset, attribute(breakPointTransforms, 820)),
+            980: craft.imager.transformImage(asset, attribute(breakPointTransforms, 980)),
+            1440: craft.imager.transformImage(asset, attribute(breakPointTransforms, 1440)),
+        } %}
+
+        <img src="{{ craft.imager.transformImage(asset, attribute(transforms, transform)) }}"
+             sizes="{{ attribute(sizes, transform) }}"
+             srcset="{% spaceless %}{% for width, image in srcSetImages %}{{ image }} {{ width }}w{% if not loop.last %}, {% endif %}{% endfor %}{% endspaceless %}"
+             alt="{{ asset.title }}"
+        >
+    {% endif %}
+{% endmacro %}

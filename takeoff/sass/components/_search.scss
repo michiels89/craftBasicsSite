@@ -1,0 +1,52 @@
+.search {
+  float: right;
+  &__submit {
+    padding: .23em .4em;
+  }
+  &-form {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    width: 0;
+    display: none;
+    transition: width 2s;
+    &.focus {
+      display: block;
+      width: 100%;
+      z-index: 9999;
+      opacity: 1;
+      transition: all .3s;
+      display: block;
+      @include breakpoint($breakpoint-flyout) {
+        position: absolute;
+        display: block;
+        width: 83%;
+        left: 0;
+        z-index: 9999;
+      };
+    }
+  }
+  &__bg {
+    &.active {
+      background: $white;
+      width: 100%;
+      position: absolute;
+      right: 0;
+      z-index: 2001;
+    }
+  }
+  &__link {
+    @include link-variant($black, $color-primary);
+    display: block;
+    @include fsRem(20px);
+    text-transform: uppercase;
+    padding: 7px 0 0 0 !important;
+    float: right;
+    cursor: pointer;
+    &:hover,
+    &:focus,
+    &.active {
+      background-size: 0 !important;
+    }
+  }
+}

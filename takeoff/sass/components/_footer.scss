@@ -1,0 +1,14 @@
+.page-footer {
+  &__logo {
+    float: left;
+    margin-right: $rh-xsm;
+    @include breakpoint(map-get($breakpoints, xsm)) {
+      margin-right: $rh-med;
+    };
+  }
+  &__copyright {
+    color: $color-text;
+    font-size: 15px;
+    padding: 9px 0;
+  }
+}

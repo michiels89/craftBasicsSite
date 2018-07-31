@@ -1,0 +1,10 @@
+{% if craft.amNav.getNavRaw("doormatNav") is defined %}
+    <nav class="nav nav--doormat">
+        <ul>
+            {% set nav = craft.amNav.getNavRaw("doormatNav") %}
+            {% for node in nav %}
+                <li><a href="{{ node.url }}" class="{{ globalMacro.is_active(node.url) }}" {% if node.blank %} target="_blank"{% endif %}>{{ node.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}
